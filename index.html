@@ -8,6 +8,9 @@
     <title>Pokemon</title>
     <link rel="stylesheet" href="./index.css">
     <script async src="./script.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -38,27 +41,35 @@
         </div>
       </nav>
     
-</body>
-<main>
-    <main id="contenedor-de-cards">
-    </main>
-    <div id="equipo-modal">
-        <div id="equipo-contenido">
-            <h2 class="title">Equipo Seleccionado</h2>
-            <ul id="equipo-lista">
-            </ul>
-            <p id="equipo-total"></p>
-            <button id="cerrar-equipo">Cerrar</button>
-        </div>
-    </div>
-    <div id="equipo-container">
-        <h2>Tu Equipo</h2>
-        <ul id="equipo-lista-principal">
-        </ul>
-        <p id="equipo-total-principal"></p>
-    </div>
-    </div>
-</main>
+      
+        <header>
+            <h1>Elige tu Equipo Pokémon</h1>
+            <div class="controls">
+                <button id="generateButton">Generar Nuevos Pokémon</button>
+                <button id="clearTeamButton">Limpiar Equipo</button>
+            </div>
+        </header>
+    
+        <div id="loading" style="display: none;">Cargando Pokémon...</div>
+    
+        <main class="main-content-area">
+            <section id="pokemon-selection-area" class="column">
+                <h2>Pokémon Disponibles (Elige hasta 6):</h2>
+                <div id="pokemon-container">
+                    <!-- Aquí se mostrarán los 12 Pokémon aleatorios -->
+                </div>
+            </section>
+    
+            <section id="team-composition-area" class="column">
+                <h2>Tu Equipo Pokémon (<span id="team-count">0</span>/6):</h2>
+                <div id="team-display-container">
+                    <!-- Aquí se mostrarán los Pokémon del equipo estilo lista -->
+                </div>
+            </section>
+        </main>
+    
+        <script src="script.js"></script>
+    
 <footer>
     <div>
       <img class="logo-alejo" src="./img/Logo-Alejo.png" alt="Logo">
@@ -71,4 +82,5 @@
       <p class="InnerTextFooter">Linkedin</p>
     </div>
   </footer>
+</body>
 </html>
