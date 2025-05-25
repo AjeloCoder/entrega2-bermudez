@@ -6,14 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const NUM_POKEMON_TO_DISPLAY = 10;
     const MAX_TEAM_MEMBERS = 6;
     const MAX_STORE_ITEMS = 100;
-    // const POKEBALL_ITEM_NAME = 'poke-ball'; // Ya no es tan crucial si usamos ALL_BALL_TYPES
 
     const LOCAL_STORAGE_KEY_RANDOM_POKEMON = 'randomPokemonList';
     const LOCAL_STORAGE_KEY_SELECTED_TEAM = 'selectedPokemonTeam';
     const LOCAL_STORAGE_KEY_POKEDOLLARS = 'userPokedollars';
     const LOCAL_STORAGE_KEY_INVENTORY_ITEMS = 'userInventoryItems';
 
-    // --- DOM Elements ---
     const pokemonContainer = document.getElementById('pokemon-container');
     const teamDisplayContainer = document.getElementById('team-display-container');
     const teamCountSpan = document.getElementById('team-count');
@@ -24,9 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const navGeneratorLink = document.getElementById('nav-generator');
     const navStoreLink = document.getElementById('nav-store');
     const navInventoryLink = document.getElementById('nav-inventory');
-    const generatorSection = document.getElementById('generator-section');
-    const storeSection = document.getElementById('store-section');
-    const inventorySection = document.getElementById('inventory-section');
     const allSections = document.querySelectorAll('.page-section');
     const navLinks = document.querySelectorAll('.nav-links a');
 
@@ -184,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
             icon: 'warning',
             title: 'Equipo Lleno',
             text: 'No puedes agregar más Pokémon a tu equipo.',
-            confirmButtonColor: '#e67e22' // Tu color naranja
+            confirmButtonColor: '#e67e22' 
         });
         teamDisplayContainer.parentElement.classList.add('shake'); // Mantener shake si lo deseas
         setTimeout(() => teamDisplayContainer.parentElement.classList.remove('shake'), 500);
@@ -195,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
             icon: 'info',
             title: 'Ya en el Equipo',
             text: `${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)} ya está en tu equipo.`,
-            confirmButtonColor: '#3498db' // Tu color azul
+            confirmButtonColor: '#3498db' 
         });
         return;
     }
@@ -209,13 +204,12 @@ document.addEventListener('DOMContentLoaded', () => {
             icon: 'error',
             title: '¡Sin Poké Balls!',
             html: `Necesitas alguna Poké Ball en tu inventario para atrapar a <strong>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</strong>. <br>¡Ve a la tienda!`,
-            confirmButtonColor: '#c0392b' // Tu color rojo
+            confirmButtonColor: '#c0392b' 
         });
         return;
     }
 
     let ballToUse;
-    // ... (lógica para seleccionar ballToUse) ...
     if (availableBalls.length > 1) {
         const preferredOrder = ['poke-ball', 'great-ball', 'ultra-ball', 'master-ball'];
         for (const preferredBallName of preferredOrder) {
@@ -231,16 +225,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const ballUsedName = ballToUse.name.replace(/-/g, ' ');
     const pokemonNameCapitalized = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
 
-    // Notificación sutil de captura
+
     Swal.fire({
-        toast: true, // Hacerlo un "toast" (pequeña notificación no intrusiva)
+        toast: true, 
         icon: 'success',
         title: `${pokemonNameCapitalized} atrapado!`,
         text: `Se usó una ${ballUsedName}.`,
-        position: 'top-end', // Posición del toast
+        position: 'top-end',
         showConfirmButton: false,
-        timer: 3000, // Duración del toast
-        timerProgressBar: true, // Mostrar barra de progreso del timer
+        timer: 3000, 
+        timerProgressBar: true, 
         didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)
             toast.addEventListener('mouseleave', Swal.resumeTimer)
@@ -351,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             if (cost === 0 && !ALL_BALL_TYPES.includes(data.name) && data.name !== 'master-ball') {
-                 // return null;
+                
             }
             return {
                 id: data.id,
@@ -367,8 +361,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // PRIMERA DEFINICIÓN DE fetchAndDisplayStoreItems ELIMINADA
-    async function fetchAndDisplayStoreItems() { // Esta es la correcta
+    
+    async function fetchAndDisplayStoreItems() { 
         if (storeItemsData.length > 0) {
             renderStoreView();
             return;
@@ -394,8 +388,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // PRIMERA DEFINICIÓN DE renderStoreView ELIMINADA
-    function renderStoreView() { // Esta es la correcta
+    
+    function renderStoreView() { 
         storeItemContainer.innerHTML = '';
         storeEmptyMessage.style.display = 'none';
         let itemsToDisplay = [];
@@ -473,7 +467,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateStoreButtonsStateDynamic();
     }
 
-    // FUNCIÓN displayStoreItems ELIMINADA (OBSOLETA)
+  
 
     function buyItem(itemToBuy, quantity) {
     const totalCost = itemToBuy.cost * quantity;
@@ -622,7 +616,7 @@ function sellItem(itemToSell, quantity) {
         }
     });
 
-    // FUNCIÓN updateStoreButtonsState ELIMINADA (OBSOLETA)
+  
 
     // =================================================================================
     // --- FUNCIONES DE INVENTARIO ---
@@ -676,8 +670,7 @@ function sellItem(itemToSell, quantity) {
             itemDiv.appendChild(quantityEl);
             inventoryItemList.appendChild(itemDiv);
         });
-    } // <--- LLAVE DE CIERRE AÑADIDA AQUÍ
-
+    } 
     // =================================================================================
     // --- FUNCIONES DE LOCALSTORAGE ---
     // =================================================================================
