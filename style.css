@@ -1,0 +1,750 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*
+  .pixelify-sans {  <-- Esta clase no se está usando actualmente. Puedes quitarla si la fuente se aplica directamente al body.
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+  }
+*/
+
+body {
+    font-family: "Pixelify Sans", sans-serif; /* Aplicada globalmente */
+    background-color: #2c3e50; /* Color de fondo de respaldo si la imagen no carga */
+    background-image: url(./img/wallpaperflare.com_wallpaper.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: whitesmoke; /* Color de texto por defecto para el body */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* Eliminado: align-items: center; y padding: 20px; para permitir que el main ocupe el ancho */
+}
+
+/* --- NAVBAR --- */
+#navbar {
+    background-color: #1f618d; /* Rojo Pokémon */
+    color: white;
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+.nav-logo {
+    font-size: 1.5em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+.nav-logo img { /* Si añades un logo img al navbar */
+    height: 60px;
+    width: 60px;
+    margin-right: 10px;
+}
+
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1em;
+    padding: 10px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    background-color: #e74c3c;
+}
+
+
+
+#pokedollar-amount {
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+#pokedollar-icon-placeholder {
+    width: 24px;
+    height: 24px;
+    margin-left: 5px;
+    /* background-color: gold; */ /* Placeholder si no hay imagen */
+    /* border-radius: 50%; */
+}
+
+/* --- CONTENEDOR PRINCIPAL Y SECCIONES --- */
+main {
+    flex-grow: 1;
+    width: 100%; /* Ocupar todo el ancho disponible */
+    max-width: 1400px; /* Un ancho máximo para pantallas muy grandes */
+    margin: 0 auto; /* Centrar el contenido principal */
+    padding: 20px;
+    padding-top: 80px; /* Espacio para el navbar fijo */
+    display: flex;
+    flex-direction: column;
+}
+
+.page-section {
+    display: none;
+    width: 100%;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.page-section.active-section {
+    display: block; /* Esto es suficiente. Si una sección necesita flex, se lo pones a esa sección específica */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- ENCABEZADOS DE SECCIÓN --- */
+/* El <header> dentro de cada <section> */
+.page-section > header { /* Más específico para los headers de sección */
+    width: 100%; /* Ocupar todo el ancho de la sección */
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.3); /* Fondo semitransparente oscuro para contraste */
+    border-radius: 8px;
+    color: whitesmoke; /* Asegurar texto claro en headers */
+}
+
+.page-section > header h1 {
+    color: #ffcb05; /* Amarillo Pokémon para H1 */
+    margin-bottom: 10px;
+    font-size: 2em;
+}
+.page-section > header p { /* Para los subtítulos en headers de sección */
+    font-size: 1.1em;
+    color: #f0f0f0;
+}
+
+/* --- ESTILOS GENERALES DE BOTONES --- */
+button { /* Estilos base para todos los botones, pueden ser sobreescritos */
+    font-family: "Pixelify Sans", sans-serif; /* Asegurar la fuente */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    background-color: #3498db; /* Azul general */
+    color: white;
+}
+
+button:hover {
+    background-color: #2980b9; /* Oscurecer al pasar el mouse */
+    transform: translateY(-2px); /* Ligero efecto de elevación */
+}
+
+button:active {
+    transform: translateY(0px); /* Efecto de presionar */
+}
+
+button:disabled {
+    background-color: #7f8c8d; /* Gris para deshabilitado */
+    color: #bdc3c7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Botón principal de Generar (si es el de generateButton en el header de sección) */
+#generateButton {
+    background-color: #e67e22; /* Naranja */
+    padding: 12px 20px;
+    font-size: 1.1em;
+}
+#generateButton:hover {
+    background-color: #d35400;
+}
+
+/* --- CONTENEDORES GRID (Pokémon y Tienda) --- */
+.grid-container {
+    display: grid;
+    gap: 20px; /* Aumentado un poco el gap */
+    margin-bottom: 20px;
+}
+
+/* Específico para el contenedor de Pokémon */
+#pokemon-container {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* Un poco más de espacio para cada tarjeta */
+}
+
+/* Específico para el contenedor de la Tienda */
+#store-item-container.grid-container { /* Asegurando que se aplique bien */
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+
+
+/* --- TARJETAS (Pokémon y Items) --- */
+.pokemon-card,
+.item-card {
+    background-color: #566573; /* TU COLOR DE FONDO REQUERIDO */
+    color: whitesmoke; /* Texto claro para contraste */
+    border: 2px solid #7f8c8d; /* Borde un poco más sutil */
+    border-radius: 10px; /* Bordes más redondeados */
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pokemon-card:hover,
+.item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    border-color: #ffcb05; /* Amarillo Pokémon al pasar el mouse */
+}
+
+.pokemon-card img,
+.item-card img {
+    max-width: 100%; /* Permitir que la imagen ocupe el ancho de la tarjeta si es necesario */
+    height: 96px;
+    object-fit: contain;
+    margin: 0 auto 15px; /* Más espacio debajo de la imagen */
+    display: block;
+}
+
+.pokemon-card h3,  /* Nombre del Pokémon */
+.item-card h4 {    /* Nombre del Item */
+    margin: 10px 0;
+    font-size: 1.2em;
+    text-transform: capitalize;
+    min-height: 2.4em; /* Para evitar saltos de altura si nombres tienen 1 o 2 líneas */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Botones dentro de las tarjetas de Pokémon (Añadir al Equipo) */
+.pokemon-card button {
+    background-color: #27ae60; /* Verde para añadir */
+    color: white;
+    padding: 8px 12px;
+    font-size: 0.9em;
+    width: 100%;
+}
+
+.pokemon-card button:hover {
+    background-color: #2ecc71;
+}
+
+.pokemon-card button:disabled {
+    background-color: #7f8c8d;
+}
+
+/* --- SECCIÓN GENERADOR: LAYOUT DE DOS COLUMNAS --- */
+#generator-section.active-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+#pokemon-container { /* Ya definido antes, se aplica aquí */
+    flex: 3; /* Más espacio para la selección de Pokémon */
+    min-width: 300px;
+}
+
+#team-sidebar {
+    flex: 1; /* Menos espacio para el equipo */
+    min-width: 280px; /* Ancho mínimo para la sidebar */
+    background-color: rgba(0, 0, 0, 0.2); /* Fondo semitransparente */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column; /* Para que el h2 y el team-display-container se apilen */
+}
+
+#team-sidebar h2 {
+    color: #ffcb05; /* Amarillo Pokémon */
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #555;
+    padding-bottom: 10px;
+}
+
+#team-display-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto; /* Scroll si el contenido excede */
+    max-height: calc(100vh - 250px); /* Ajustar altura máxima para evitar que sea demasiado largo */
+}
+#team-display-container:empty::after { /* Mensaje si el equipo está vacío */
+    content: "El equipo está vacío. ¡Atrapa algunos Pokémon!";
+    display: block;
+    text-align: center;
+    color: #bdc3c7;
+    padding: 20px;
+}
+
+
+.team-member-item {
+    display: flex;
+    align-items: center;
+    background-color: #2ecc71; /* Mismo color que las cards */
+    color: whitesmoke;
+    border: 1px solid #7f8c8d;
+    border-radius: 8px; /* Consistente con las cards */
+    padding: 10px;
+    gap: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.team-member-item img.team-sprite {
+    width: 80px; /* Ajustado */
+    height: 80px;
+    image-rendering: pixelated;
+    object-fit: contain;
+    background-color: rgba(255,255,255,0.1); /* Ligero fondo para el sprite */
+    border-radius: 4px;
+}
+
+.team-member-item .team-member-name {
+    flex-grow: 1;
+    font-size: 1.1em;
+    text-transform: capitalize;
+}
+
+button.remove-team-button { /* Específico para este botón */
+    background-color: #e74c3c; /* Rojo para quitar */
+    color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-weight: bold;
+    font-size: 0.9em; /* Ajustar tamaño de la 'X' */
+    line-height: 30px; /* Centrar 'X' verticalmente */
+    padding: 0; /* Quitar padding extra */
+    flex-shrink: 0; /* Para que no se encoja */
+}
+
+button.remove-team-button:hover {
+    background-color: #c0392b;
+}
+
+/* --- SECCIÓN TIENDA --- */
+/* .store-grid ya está definido bajo .grid-container, se aplicará a #store-item-container */
+
+.item-card p.price { /* Clase específica para el precio para evitar conflictos */
+    margin: 10px 0;
+    font-weight: bold;
+    color: #2ecc71; /* Verde brillante para precio */
+    font-size: 1.1em;
+}
+
+.item-card .actions { /* Contenedor de botones de compra/venta */
+    display: flex;
+    justify-content: space-around; /* Distribuir botones */
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.item-card .actions button { /* Estilos para botones dentro de .actions */
+    flex-grow: 1; /* Para que ocupen el espacio disponible */
+    padding: 8px 10px;
+    font-size: 0.9em;
+}
+
+.item-card .buy-button {
+    background-color: #2ecc71; /* Verde */
+}
+.item-card .buy-button:hover {
+    background-color: #27ae60;
+}
+
+.item-card .sell-button {
+    background-color: #e67e22; /* Naranja */
+}
+.item-card .sell-button:hover {
+    background-color: #d35400;
+}
+
+/* --- SECCIÓN INVENTARIO --- */
+.inventory-layout {
+    display: flex;
+    flex-wrap: wrap; /* Para responsividad */
+    gap: 20px;
+}
+
+.inventory-column {
+    flex: 1;
+    min-width: 300px; /* Ancho mínimo para las columnas */
+    background-color: rgba(0,0,0,0.2); /* Similar a la sidebar */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.inventory-column h2 {
+    color: #ffcb05;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #555;
+    padding-bottom: 10px;
+}
+.store-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.store-tab {
+    padding: 10px 20px;
+    font-size: 1.1em;
+    background-color: #7f8c8d; /* Color inactivo */
+    color: white;
+    border: none;
+    border-radius: 5px 5px 0 0; /* Redondeado solo arriba */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.store-tab:hover {
+    background-color: #95a5a6;
+}
+
+.store-tab.active {
+    background-color: #566573; /* Color de las cards, o un color primario de la app */
+    font-weight: bold;
+}
+
+/* --- Estilos para el contador de cantidad en tarjetas de item --- */
+.item-card .quantity-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px auto; /* Centrado y con margen */
+    gap: 8px;
+}
+
+.item-card .quantity-control label {
+    font-size: 0.9em;
+}
+
+.item-card .quantity-control input[type="number"] {
+    width: 60px; /* Ancho para el input numérico */
+    padding: 5px 8px;
+    text-align: center;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    font-family: "Pixelify Sans", sans-serif; /* Heredar fuente */
+    font-size: 1em;
+    color: #333; /* Color de texto para el input */
+    background-color: #ecf0f1; /* Fondo claro para el input */
+}
+/* Para quitar las flechas por defecto en algunos navegadores si se desea un look más limpio */
+.item-card .quantity-control input[type="number"]::-webkit-outer-spin-button,
+.item-card .quantity-control input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.item-card .quantity-control input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+}
+
+/* Mensaje de tienda vacía */
+#store-empty-message {
+    padding: 20px;
+    color: #bdc3c7; /* Un color suave para el mensaje */
+    font-size: 1.1em;
+}
+
+/* Lista de equipo en el inventario (reutiliza .team-member-item) */
+#inventory-team-pokemon-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+#inventory-team-pokemon-list:empty::after {
+    content: "Tu equipo Pokémon está vacío.";
+    display: block;
+    text-align: center;
+    color: #bdc3c7;
+    padding: 20px;
+}
+/* Estilos para .team-member-item ya definidos, se aplican aquí */
+
+/* Lista de items en el inventario */
+#inventory-item-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+#inventory-item-list:empty::after {
+    content: "No tienes items en tu inventario.";
+    display: block;
+    text-align: center;
+    color: #bdc3c7;
+    padding: 20px;
+}
+
+.inventory-item {
+    display: flex;
+    align-items: center;
+    background-color: #566573; /* Mismo color que las cards */
+    color: whitesmoke;
+    padding: 10px;
+    border-radius: 8px;
+    gap: 15px;
+}
+
+.inventory-item img {
+    width: 48px; /* Tamaño consistente */
+    height: 48px;
+    object-fit: contain;
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 4px;
+}
+
+.inventory-item .name {
+    flex-grow: 1;
+    text-transform: capitalize;
+    font-size: 1.1em;
+}
+
+.inventory-item .quantity {
+    font-weight: bold;
+    background-color: #2c3e50; /* Fondo más oscuro para la cantidad */
+    color: #ffcb05; /* Amarillo para el número */
+    padding: 5px 10px;
+    border-radius: 15px; /* Más redondeado */
+    font-size: 0.9em;
+    min-width: 40px; /* Ancho mínimo para que se vea bien el xN */
+    text-align: center;
+}
+
+/* --- OTROS --- */
+#loading {
+    font-size: 1.8em;
+    color: #ffcb05;
+    padding: 30px;
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 10px;
+    text-align: center;
+    position: fixed; /* Para que se muestre encima de todo */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2000; /* Por encima del navbar */
+}
+
+.shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+@keyframes shake {
+  10%, 90% { transform: translateX(-1px); }
+  20%, 80% { transform: translateX(2px); }
+  30%, 50%, 70% { transform: translateX(-4px); }
+  40%, 60% { transform: translateX(4px); }
+}
+
+/* --- FOOTER (Si lo tienes) --- */
+#site-footer {
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+    color: #bdc3c7; /* Color de texto gris claro */
+    padding: 30px 20px;
+    text-align: center;
+    margin-top: auto; /* Empuja el footer hacia abajo si el contenido es corto */
+    width: 100%;
+    font-size: 0.9em;
+}
+
+.footer-content {
+    max-width: 800px; /* Ancho máximo para el contenido del footer */
+    margin: 0 auto; /* Centrar el contenido */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Espacio entre elementos del footer */
+}
+
+.footer-logo img {
+    max-height: 150px; /* Ajusta el tamaño de tu logo como prefieras */
+    width: auto;
+    margin-bottom: 10px; /* Espacio debajo del logo si los links van abajo */
+}
+
+.footer-social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espacio entre iconos/links sociales */
+    margin-bottom: 15px;
+}
+
+.social-link {
+    color: #ecf0f1; /* Color claro para los enlaces */
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
+    display: inline-flex; /* Para alinear texto/icono si usas SVG */
+    align-items: center;
+    gap: 5px; /* Espacio entre icono y texto si los usas juntos */
+}
+
+/* Colores específicos para cada red (opcional pero recomendado) */
+.social-link.instagram {
+    background-color: #e4405f; /* Color Instagram */
+}
+.social-link.instagram:hover {
+    background-color: #c13584;
+}
+
+.social-link.github {
+    background-color: #333; /* Color GitHub */
+}
+.social-link.github:hover {
+    background-color: #555;
+}
+
+.social-link.linkedin {
+    background-color: #0077b5; /* Color LinkedIn */
+}
+.social-link.linkedin:hover {
+    background-color: #005582;
+}
+
+.social-link:hover {
+    transform: translateY(-2px);
+    color: white; /* Color del texto al pasar el mouse */
+}
+
+.footer-copyright p {
+    margin: 5px 0;
+    font-size: 0.85em;
+    line-height: 1.4;
+}
+
+.social-link svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+} 
+/* Media Query para el footer si es necesario */
+@media (max-width: 600px) {
+    .footer-content {
+        gap: 15px;
+    }
+    .footer-social-links {
+        gap: 15px;
+    }
+    .social-link {
+        padding: 6px 10px;
+        font-size: 0.9em;
+    }
+    .footer-logo img {
+        max-height: 50px;
+    }
+} 
+
+
+/* --- RESPONSIVIDAD --- */
+@media (max-width: 992px) { /* Tabletas y móviles grandes */
+    #generator-section.active-section {
+        flex-direction: column;
+    }
+    #team-sidebar {
+        width: 100%;
+        margin-top: 20px;
+        max-height: 300px; /* Limitar altura en móviles */
+    }
+    .inventory-layout {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) { /* Móviles */
+    body {
+        /* padding: 10px; No es necesario si main tiene padding */
+    }
+    main {
+        padding: 10px;
+        padding-top: 70px; /* Navbar height + un poco de espacio */
+    }
+    .page-section > header h1 {
+        font-size: 1.5em;
+    }
+    .nav-links {
+        /* Considerar un menú hamburguesa para muchos enlaces en móviles */
+        /* Por ahora, reducimos espaciado si caben */
+        justify-content: center; /* Centrar si hay pocos */
+    }
+    .nav-links li {
+        margin-left: 10px;
+    }
+    .nav-links a {
+        font-size: 1em;
+        padding: 8px 10px;
+    }
+
+    .pokedollar-display {
+    display: flex;
+    align-items: center;
+    font-size: 0.95em;
+    max-width: 150px; /* o el ancho que consideres apropiado */
+    flex-shrink: 0; 
+    }
+
+    .nav-logo {
+        font-size: 1.2em;
+    }
+    /* #pokemon-container y #store-item-container ya usan auto-fill, minmax, así que se adaptan bien. */
+    /* Podemos hacer las tarjetas un poco más pequeñas si es necesario */
+    .pokemon-card, .item-card {
+        padding: 10px;
+    }
+    .pokemon-card img, .item-card img {
+        height: 80px;
+    }
+}
+
+@media (max-width: 480px) { /* Móviles muy pequeños */
+    #pokemon-container,
+    #store-item-container.grid-container {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Tarjetas más pequeñas */
+    }
+    .pokemon-card h3, .item-card h4 {
+        font-size: 1em;
+    }
+    button.remove-team-button {
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+        font-size: 0.8em;
+    }
+}
